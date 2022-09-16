@@ -1,4 +1,3 @@
-use crate::components::NSSlider;
 use crate::gamma_control::{
     change_gamma, CGDisplayChangeSummaryFlags, CGDisplayRegisterReconfigurationCallback,
 };
@@ -85,7 +84,8 @@ pub fn run_app() {
             });
             let responder: id = msg_send![RESPONDER_CLASS, new];
             let slider_rect = NSRect::new(NSPoint::new(10.0, 5.0), NSSize::new(180.0, 25.0));
-            let slider = NSSlider::init_with_frame_(NSSlider::alloc(nil), slider_rect);
+            let slider: *mut Object = msg_send![class!(NSSlider), alloc];
+            let _: () = msg_send![slider, initWithFrame: slider_rect];
             let objc_text = NSString::alloc(nil).init_str(&monitor.id.to_string());
             (*responder).set_ivar("_name", objc_text as u64);
             let _: () = msg_send![slider, setTarget: responder];

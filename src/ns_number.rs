@@ -1,7 +1,7 @@
 use bitflags::bitflags;
 use cocoa::base::id;
-use cocoa::foundation::{NSRect, NSUInteger};
-use objc::{class, msg_send, sel, sel_impl};
+use cocoa::foundation::NSUInteger;
+use objc::{msg_send, sel, sel_impl};
 
 #[link(name = "AppKit", kind = "framework")]
 bitflags! {
@@ -25,19 +25,5 @@ pub trait NSNumber {
 impl NSNumber for id {
     unsafe fn as_u32(self) -> u32 {
         msg_send![self, unsignedIntegerValue]
-    }
-}
-
-pub trait NSSlider: Sized {
-    unsafe fn alloc(_: Self) -> id {
-        msg_send![class!(NSSlider), alloc]
-    }
-
-    unsafe fn init_with_frame_(self, frameRect: NSRect) -> id;
-}
-
-impl NSSlider for id {
-    unsafe fn init_with_frame_(self, frameRect: NSRect) -> id {
-        msg_send![self, initWithFrame: frameRect]
     }
 }

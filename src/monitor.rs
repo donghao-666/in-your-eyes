@@ -1,5 +1,5 @@
 use crate::brightness_services::get_brightness;
-use crate::components::NSNumber;
+use crate::ns_number::NSNumber;
 use crate::utils::{make_nsstring, nsstring_to_str, AutoreleasePool};
 use cocoa::appkit::NSScreen;
 use cocoa::base::{id, nil};
