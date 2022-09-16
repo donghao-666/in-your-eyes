@@ -1,0 +1,20 @@
+[package]
+name = "in-your-eyes"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+core-graphics = "0.22"
+core-graphics-types = "0.1"
+cocoa = "0.20.0"
+objc = "0.2"
+libc = "0.2"
+bitflags = "1.0"
+cacao = "0.3.2"
+
+[profile.release-lto]
+inherits = "release"
+lto = true
+codegen-units = 1
