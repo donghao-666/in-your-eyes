@@ -22,8 +22,8 @@ all: help
 help: ## Print this help message
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-binary: $(TARGET)-native ## Build a release binary
-binary-universal: $(TARGET)-universal ## Build a universal release binary
+binary: $(TARGET)-native
+binary-universal: $(TARGET)-universal
 $(TARGET)-native:
 	MACOSX_DEPLOYMENT_TARGET="10.11" cargo build --profile release-lto
 	@lipo target/release-lto/$(TARGET) -create -output $(APP_BINARY)
@@ -33,8 +33,8 @@ $(TARGET)-universal:
 	@lipo target/{x86_64,aarch64}-apple-darwin/release-lto/$(TARGET) -create -output $(APP_BINARY)
 	/usr/bin/codesign -vvv --deep --entitlements $(ASSETS_DIR)/entitlements.plist --strict --options=runtime --force -s 1295C4FCC6B2E7721CBC16C81886D730BCE8D9BA $(APP_BINARY)
 
-app: $(APP_NAME)-native ## Create a Lapce.app
-app-universal: $(APP_NAME)-universal ## Create a universal Lapce.app
+app: $(APP_NAME)-native
+app-universal: $(APP_NAME)-universal
 $(APP_NAME)-%: $(TARGET)-%
 	@mkdir -p $(APP_BINARY_DIR)
 	@mkdir -p $(APP_EXTRAS_DIR)
@@ -46,8 +46,8 @@ $(APP_NAME)-%: $(TARGET)-%
 	xattr -c $(APP_DIR)/$(APP_NAME)/Contents/Resources/in-your-eyes.icns
 	/usr/bin/codesign -vvv --deep  --entitlements $(ASSETS_DIR)/entitlements.plist --strict --options=runtime --force -s 1295C4FCC6B2E7721CBC16C81886D730BCE8D9BA $(APP_DIR)/$(APP_NAME)
 
-dmg: $(DMG_NAME)-native ## Create a Lapce.dmg
-dmg-universal: $(DMG_NAME)-universal ## Create a universal Lapce.dmg
+dmg: $(DMG_NAME)-native
+dmg-universal: $(DMG_NAME)-universal
 $(DMG_NAME)-%: $(APP_NAME)-%
 	@echo "Packing disk image..."
 	@ln -sf /Applications $(DMG_DIR)/Applications

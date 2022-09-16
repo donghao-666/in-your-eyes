@@ -1,4 +1,3 @@
-/// Color parameters
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Color {
     pub temp: u16,
